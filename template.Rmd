@@ -1,0 +1,86 @@
+---
+title: "Simple document"
+author: "Meghan"
+output: html_document
+html_document: true
+---
+
+I'm an R Markdown document! 
+
+# Section 0: libraries
+```{r load_libraries, message = F}
+library(tidyverse)
+```
+
+# Section 1
+
+Here's a **code chunk** that samples from 
+a _normal distribution_:
+
+```{r}
+samp = rnorm(100)
+length(samp)
+```
+
+# Section 2
+
+I can take the mean of the sample, too!
+The mean is `r mean(samp)`.
+
+# Section 3: tibble
+
+```{r}
+plot_df =
+  tibble(
+    x = rnorm(1000, sd = 0.5),
+    y = 1 + 2*x + rnorm(1000)
+  )
+```
+# Section 4: ggplot
+
+```{r}
+ggplot(plot_df, aes (x = x)) + geom_histogram()
+ggplot(plot_df, aes (x = x)) + geom_point()
+```
+# Section 5: Learning Assignment 2
+
+Write a named code chunk that creates a dataframe comprised of: a numeric variable containing a random sample of size 500 from a normal variable with mean 1; a logical vector indicating whether each sampled value is greater than zero; and a numeric vector containing the absolute value of each element. Then, produce a histogram of the absolute value variable just created. Add an inline summary giving the median value rounded to two decimal places. What happens if you set eval = FALSE to the code chunk? What about echo = FALSE?
+
+```{r learning_assessment_2}
+library(tidyverse)
+
+la_df =
+  tibble(
+    num_var = rnorm(n = 500, mean = 1),
+    log_var = num_var > 0,
+    abs_var = abs(num_var)
+  )
+
+ggplot(la_df, aes (x = abs_var)) + geom_histogram()
+
+round(median(pull(la_df, num_var)),2)
+
+```
+
+
+
+text formatting
+---------------------------------------------
+*italic* or _italic_
+**bold** or __bold__
+`num_var`
+superscript^2^ and subscript~2~
+
+headings
+---------------------------------------------
+# 1st level header
+## 2nd level
+### 3rd level
+
+# Section 7: Learning Assessment 3
+
+After the previous code chunk, write a bullet list given the mean, median, and standard deviation of the original random sample.
+
+* median: `r round(median(pull(la_df, num_var)),2)`
+* mean: `r round(mean(pull(la_df, num_var)),2)`
+* std: `r round(sd(pull(la_df, num_var)),2)`
